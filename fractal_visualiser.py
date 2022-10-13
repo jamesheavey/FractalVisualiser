@@ -13,7 +13,7 @@ class fractal_visualiser(turtle.Turtle):
     def tree(self, size, levels, angle):
         if levels == 0:
             self.color("green")
-            self.dot(size)
+            self.dot(size/2)
             self.color(self.colour)
             return
         
@@ -27,16 +27,53 @@ class fractal_visualiser(turtle.Turtle):
         self.right(angle)
         self.backward(size)
         
-    def snowflake(self, size, levels):
-        return
+    def snowflake(self, size, levels, sides):
         
+        def snowflake_side(size, levels):
+            if levels == 0:
+                self.forward(size)
+                return
+            size /= 3
+            
+            snowflake_side(size, levels - 1)
+            self.left(60)
+            snowflake_side(size, levels - 1)
+            self.right(120)
+            snowflake_side(size, levels - 1)
+            self.left(60)
+            snowflake_side(size, levels - 1)
+            
+        for i in range(sides):
+            snowflake_side(size, levels)
+            self.right(360/sides)
+    
+    def square(self, size, levels):
+        def square_side(size, levels):
+            if levels == 0:
+                self.forward(size)
+                return
+            size /= 2
+            
+            square_side(size, levels - 1)
+            self.left(90)
+            square_side(size, levels - 1)
+            self.right(90)
+            square_side(size, levels - 1)
+        
+        for i in range(4):
+            square_side(size, levels)
+            self.right(90)
         
 
+def main():
+    turt = fractal_visualiser(0, 'turtle', 'red')
 
-turt = fractal_visualiser(0, 'turtle', 'red')
+    # turt.tree(100, 6, 30)
 
-turt.tree(100, 6, 40)
+    # turt.snowflake(100,3,3)
+    
+    turt.square(100, 4)
 
-
-
-turtle.done()
+    turtle.done()
+    
+main()
